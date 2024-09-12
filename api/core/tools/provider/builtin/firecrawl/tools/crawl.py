@@ -14,7 +14,6 @@ class CrawlTool(BuiltinTool):
         app = FirecrawlApp(
             api_key=self.runtime.credentials["firecrawl_api_key"], base_url=self.runtime.credentials["base_url"]
         )
-        crawlerOptions = {}
         scrapeOptions = {}
         formats = []
 
@@ -46,7 +45,6 @@ class CrawlTool(BuiltinTool):
             maxDepth=tool_parameters.get("maxDepth"),
             ignoreSitemap=tool_parameters.get("ignoreSitemap", False),
             limit=tool_parameters.get("limit", 5),
-            crawlerOptions=crawlerOptions, 
             scrapeOptions=scrapeOptions
         )
 

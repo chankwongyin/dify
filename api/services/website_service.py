@@ -36,30 +36,24 @@ class WebsiteService:
             only_main_content = options.get("only_main_content", False)
             if not crawl_sub_pages:
                 params = {
-                    "crawlerOptions": {
-                        "includes": [],
-                        "excludes": [],
-                        "generateImgAltText": True,
-                        "limit": 1,
-                        "returnOnlyUrls": False,
-                        "pageOptions": {"onlyMainContent": only_main_content, "includeHtml": False},
+                    "limit": 1,
+                    "scrapeOptions": {
+                        "onlyMainContent": only_main_content,
                     }
                 }
             else:
                 includes = options.get("includes").split(",") if options.get("includes") else []
                 excludes = options.get("excludes").split(",") if options.get("excludes") else []
                 params = {
-                    "crawlerOptions": {
-                        "includes": includes or [],
-                        "excludes": excludes or [],
-                        "generateImgAltText": True,
-                        "limit": options.get("limit", 1),
-                        "returnOnlyUrls": False,
-                        "pageOptions": {"onlyMainContent": only_main_content, "includeHtml": False},
+                    "includePaths": includes,
+                    "excludePaths": excludes,
+                    "limit": options.get("limit", 1),
+                    "scrapeOptions": {
+                        "onlyMainContent": only_main_content,
                     }
                 }
                 if options.get("max_depth"):
-                    params["crawlerOptions"]["maxDepth"] = options.get("max_depth")
+                    params["maxDepth"] = options.get("max_depth")
             job_id = firecrawl_app.crawl_url(url, params)
             website_crawl_time_cache_key = f"website_crawl_{job_id}"
             time = str(datetime.datetime.now().timestamp())

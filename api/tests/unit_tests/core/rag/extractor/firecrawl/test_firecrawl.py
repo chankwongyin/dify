@@ -15,7 +15,6 @@ def test_firecrawl_web_extractor_crawl_mode(mocker):
     params = {
         "maxDepth": 1,
         "limit": 1,
-        "crawlerOptions": {}
     }
     mocked_firecrawl = {
         "jobId": "test",
