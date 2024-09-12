@@ -1,9 +1,11 @@
 import json
 import time
+import logging
 
 import requests
 
 from extensions.ext_storage import storage
+logger = logging.getLogger(__name__)
 
 
 class FirecrawlApp:
@@ -43,6 +45,14 @@ class FirecrawlApp:
         json_data = {"url": url}
         if params:
             json_data.update(params)
+        logger("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        logger("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        logger(json_data)
+        logger("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        logger("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        logger("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        logger("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+
         response = self._post_request(f"{self.base_url}/v1/crawl", json_data, headers)
         if response.status_code == 200:
             job_id = response.json().get("jobId")
