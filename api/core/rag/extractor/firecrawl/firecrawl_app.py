@@ -49,7 +49,7 @@ class FirecrawlApp:
             job_id = response.json().get("jobId")
             return job_id
         else:
-            self._handle_error(response, "start crawl job, json_data: " + json_data + " headers : " + headers)
+            self._handle_error(response, "start crawl job, json_data: " + str(json_data) + " headers : " + str(headers))
 
     def check_crawl_status(self, job_id) -> dict:
         headers = self._prepare_headers()
