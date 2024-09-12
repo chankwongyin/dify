@@ -15,25 +15,31 @@ class ScrapeTool(BuiltinTool):
             api_key=self.runtime.credentials["firecrawl_api_key"], base_url=self.runtime.credentials["base_url"]
         )
 
-        pageOptions = {}
-        extractorOptions = {}
+        formatsOptions = []
+        extractOptions = {}
 
-        pageOptions["headers"] = get_json_params(tool_parameters, "headers")
-        pageOptions["includeHtml"] = tool_parameters.get("includeHtml", False)
-        pageOptions["includeRawHtml"] = tool_parameters.get("includeRawHtml", False)
-        pageOptions["onlyIncludeTags"] = get_array_params(tool_parameters, "onlyIncludeTags")
-        pageOptions["removeTags"] = get_array_params(tool_parameters, "removeTags")
-        pageOptions["onlyMainContent"] = tool_parameters.get("onlyMainContent", False)
-        pageOptions["replaceAllPathsWithAbsolutePaths"] = tool_parameters.get("replaceAllPathsWithAbsolutePaths", False)
-        pageOptions["screenshot"] = tool_parameters.get("screenshot", False)
-        pageOptions["waitFor"] = tool_parameters.get("waitFor", 0)
+        if tool_parameters.get("includeHtml", False):
+            formatsOptions.append("html")
 
-        extractorOptions["mode"] = tool_parameters.get("mode", "")
-        extractorOptions["extractionPrompt"] = tool_parameters.get("extractionPrompt", "")
-        extractorOptions["extractionSchema"] = get_json_params(tool_parameters, "extractionSchema")
+        if tool_parameters.get("includeRawHtml", False):
+            formatsOptions.append("rawHtml")
+
+        if tool_parameters.get("screenshot", False):
+            formatsOptions.append("screenshot")
+
+        extractOptions["systemPrompt"] = tool_parameters.get("systemPrompt", "")
+        extractOptions["prompt"] = tool_parameters.get("extractionPrompt", "")
+        extractOptions["schema"] = get_json_params(tool_parameters, "extractionSchema")
 
         crawl_result = app.scrape_url(
-            url=tool_parameters["url"], pageOptions=pageOptions, extractorOptions=extractorOptions
+            url=tool_parameters["url"], 
+            header=get_json_params(tool_parameters, "headers"), 
+            includeTags=get_array_params(tool_parameters, "onlyIncludeTags"),
+            excludeTags=get_array_params(tool_parameters, "removeTags"),
+            onlyMainContent=tool_parameters.get("onlyMainContent", False),
+            waitFor=tool_parameters.get("waitFor", 0),
+            formats=formatsOptions,
+            extract=extractOptions
         )
 
         return self.create_json_message(crawl_result)

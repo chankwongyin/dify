@@ -18,7 +18,7 @@ class FirecrawlApp:
         json_data = {"url": url}
         if params:
             json_data.update(params)
-        response = requests.post(f"{self.base_url}/v0/scrape", headers=headers, json=json_data)
+        response = requests.post(f"{self.base_url}/v1/scrape", headers=headers, json=json_data)
         if response.status_code == 200:
             response = response.json()
             if response["success"] == True:
@@ -43,7 +43,7 @@ class FirecrawlApp:
         json_data = {"url": url}
         if params:
             json_data.update(params)
-        response = self._post_request(f"{self.base_url}/v0/crawl", json_data, headers)
+        response = self._post_request(f"{self.base_url}/v1/crawl", json_data, headers)
         if response.status_code == 200:
             job_id = response.json().get("jobId")
             return job_id
@@ -52,7 +52,7 @@ class FirecrawlApp:
 
     def check_crawl_status(self, job_id) -> dict:
         headers = self._prepare_headers()
-        response = self._get_request(f"{self.base_url}/v0/crawl/status/{job_id}", headers)
+        response = self._get_request(f"{self.base_url}/v1/crawl/status/{job_id}", headers)
         if response.status_code == 200:
             crawl_status_response = response.json()
             if crawl_status_response.get("status") == "completed":

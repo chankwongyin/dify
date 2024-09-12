@@ -13,14 +13,9 @@ def test_firecrawl_web_extractor_crawl_mode(mocker):
     base_url = "https://api.firecrawl.dev"
     firecrawl_app = FirecrawlApp(api_key=api_key, base_url=base_url)
     params = {
-        "crawlerOptions": {
-            "includes": [],
-            "excludes": [],
-            "generateImgAltText": True,
-            "maxDepth": 1,
-            "limit": 1,
-            "returnOnlyUrls": False,
-        }
+        "maxDepth": 1,
+        "limit": 1,
+        "crawlerOptions": {}
     }
     mocked_firecrawl = {
         "jobId": "test",

@@ -129,7 +129,7 @@ class WebsiteService:
             # decrypt api_key
             api_key = encrypter.decrypt_token(tenant_id=tenant_id, token=credentials.get("config").get("api_key"))
             firecrawl_app = FirecrawlApp(api_key=api_key, base_url=credentials.get("config").get("base_url", None))
-            params = {"pageOptions": {"onlyMainContent": only_main_content, "includeHtml": False}}
+            params = {"onlyMainContent": only_main_content}
             result = firecrawl_app.scrape_url(url, params)
             return result
         else:
